@@ -31,11 +31,12 @@ systemctl start make_backup.service
 # Usage example && Development setup
 
 ## set count
-First you need to select a file to count block device entries
+Firstly you need to select a file to count block device entries
 ```sh
 count_location=[/var/test.txt];
 ```
 **This needs to be the full path to a file !** (/path/to/file.txt)
+
 Then you should set count of how many times a block device entries cause a backup:
 ```sh
 bd_count=[5];
