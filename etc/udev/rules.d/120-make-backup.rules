@@ -1,0 +1,1 @@
+ACTION=="add", KERNEL=="sd*1", RUN+="/bin/bash -c 'echo $(( $(cat /var/Make_Backup/count.txt) + 1 )) > /var/Make_Backup/count.txt;logger -p local0.info -t [CHANGING-COUNT] changing count to $(cat /var/Make_Backup/count.txt).'"
