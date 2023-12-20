@@ -31,7 +31,12 @@ systemctl start make_backup.service
 # Usage example && Development setup
 
 ## set count
-First you should set count of how many times a block device entries cause a backup:
+First you need to select a file to count block device entries
+```sh
+count_location=[/var/test.txt];
+```
+**This needs to be the full path to a file !** (/path/to/file.txt)
+Then you should set count of how many times a block device entries cause a backup:
 ```sh
 bd_count=[5];
 ```
@@ -76,6 +81,6 @@ We can change this settings to control how many backups remain in the choosen ba
 * month_in_c_year = the amount of months to leave in past year.
 * month_in_year = the amount of months to leave in past year.
 
-## Meta
+## Contact
 
 Noam Alum – [Website](https://ncode.codes) – nnoam.alum@gamil.com
