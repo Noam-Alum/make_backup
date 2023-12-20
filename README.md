@@ -33,9 +33,22 @@ systemctl start make_backup.service
 By default make backup backups to the /tmp directory as a fallback to the main backups directory, to choose the backup directory we need to edit the /etc/make_backup/Make_Backup.conf configuration file.
 
 ```sh
-make install
-npm test
+parent_directory=[/change/this/to/backkups_dir];
 ```
+Swap /change/this/to/backkups_dir to the actual path to your backups directory *with out the / at the end!*
+
+We can add the files and direcotories we want to backup in between this lines:
+```sh
+> start items to backup <
+/backup/this/file.txt
+/backup/this/direcotory/
+> end items to backup <
+```
+make sure that direcotories *ends with /* and files *dont!*
+
+To control how many backups remain in the choosen backups directory we first need to check if its enables.
+```sh
+
 
 ## Release History
 
