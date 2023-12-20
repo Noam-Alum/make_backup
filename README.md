@@ -19,7 +19,7 @@ rsync -av make_backup-main/etc/ /etc/
 rsync -av make_backup-main/var/ /var/
 
 # remove directory
-rm -rf make_backup-main
+rm -rf make_backup-main make_backup.zip
 
 # handle services
 sudo systemctl restart udev
