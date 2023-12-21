@@ -27,7 +27,13 @@ sudo systemctl daemon-reload
 systemctl enable make_backup.service
 systemctl start make_backup.service
 ```
-**make sure to change /etc/systemd/system/make_backup.service user and group to youe likings**
+>Make sure to change /etc/systemd/system/make_backup.service user and group to youe likings
+>```sh
+>User=changeme
+>Group=changeme
+<br>
+<hr>
+<br>
 
 # Usage example && Development setup
 > This section is reffering to the */etc/make_backup/Make_Backup.conf* file.
