@@ -22,7 +22,7 @@ rsync -av make_backup-main/var/ /var/
 rm -rf make_backup-main make_backup.zip
 
 # handle services
-sudo systemctl restart udev
+sudo systemctl restart udev rsyslog
 sudo systemctl daemon-reload
 systemctl enable make_backup.service
 systemctl start make_backup.service
