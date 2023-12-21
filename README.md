@@ -69,14 +69,13 @@ To control how many backups remain in the choosen backups directory we first nee
 rm_old_backups=[yes];
 ```
 and make sure its set as ```yes```.
-
+We can change this settings to control how many backups remain in the choosen backups directory like so:
 ```sh
 backup_in_c_month=[14];
 backup_in_month=[1];
 month_in_c_year=[12];
 month_in_year=[1];
 ```
-We can change this settings to control how many backups remain in the choosen backups directory like so:
 * backup_in_c_month = the amount of backups in the current month directory.
 * backup_in_month = the amount of backups in past months.
 * month_in_c_year = the amount of months to leave in past year.
