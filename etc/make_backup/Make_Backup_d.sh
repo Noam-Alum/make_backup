@@ -273,6 +273,9 @@ while true; do
             sleep 10
             ### START SCRIPT
 
+            #### READ CONFIG ####
+            read_config
+
             ## IF NOT EXIST CREATE YEAR AND MONTH DIRS
             # YEAR
             year_dir="$($date '+%Y')"
