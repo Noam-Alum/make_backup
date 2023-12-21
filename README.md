@@ -29,7 +29,7 @@ systemctl start make_backup.service
 ```
 
 # Usage example && Development setup
-
+> This section is reffering to the */etc/make_backup/Make_Backup.conf* file.
 ## set count
 Firstly you need to select a file to count block device entries
 ```sh
