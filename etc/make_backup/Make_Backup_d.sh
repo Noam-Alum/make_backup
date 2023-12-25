@@ -1,7 +1,16 @@
 #!/bin/bash
+# Make Backup Daemon
+# Make backups of selected files by count of block device insertion.
 #
+# powered by bash
+# Written by Noam Alum
 #
-# Make Backup Demon
+# Documentation at https://ncode.codes/assets/single_snippet/Single_codes.php?code=make-backup
+# GitHub page at https://github.com/Noam-Alum/make_backup
+#
+# © Ncode. All rights reserved
+# Visit ncode.codes for more scripts like this :)
+
 
 ### FUNCTIONS
 ## LOG
