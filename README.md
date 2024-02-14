@@ -128,4 +128,4 @@ month_in_year=[1];
 
 ## Contact
 
-Noam Alum – [Website](https://ncode.codes) – nnoam.alum@gamil.com
+Noam Alum – [Website](https://alum.sh) – nnoam.alum@gamil.com
