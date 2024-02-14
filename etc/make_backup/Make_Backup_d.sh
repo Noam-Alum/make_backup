@@ -5,11 +5,11 @@
 # powered by bash
 # Written by Noam Alum
 #
-# Documentation at https://ncode.codes/assets/single_snippet/Single_codes.php?code=make-backup
+# Documentation at https://alum.sh/assets/Documents/Make%20backup.html
 # GitHub page at https://github.com/Noam-Alum/make_backup
 #
 # © Ncode. All rights reserved
-# Visit ncode.codes for more scripts like this :)
+# Visit alum.sh for more scripts like this :)
 
 
 ### FUNCTIONS
