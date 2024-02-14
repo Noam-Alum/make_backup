@@ -8,7 +8,7 @@
 # Documentation at https://alum.sh/assets/Documents/Make%20backup.html
 # GitHub page at https://github.com/Noam-Alum/make_backup
 #
-# © Ncode. All rights reserved
+# © Noam Alum. All rights reserved
 # Visit alum.sh for more scripts like this :)
 
 
