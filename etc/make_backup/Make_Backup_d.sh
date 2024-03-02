@@ -1,16 +1,7 @@
 #!/bin/bash
-# Make Backup Daemon
-# Make backups of selected files by count of block device insertion.
 #
-# powered by bash
-# Written by Noam Alum
 #
-# Documentation at https://alum.sh/assets/Documents/Make%20backup.html
-# GitHub page at https://github.com/Noam-Alum/make_backup
-#
-# © Noam Alum. All rights reserved
-# Visit alum.sh for more scripts like this :)
-
+# Make Backup Demon
 
 ### FUNCTIONS
 ## LOG
@@ -56,7 +47,7 @@ function get_binary {
     trap 'HandleError' ERR
 
     # list all binaries
-    mbn_commands=("cat" "date" "sed" "awk" "tr" "sort" "tail" "rm" "ls" "mkdir" "head" "rsync" "echo")
+    mbn_commands=("find" "cat" "date" "sed" "awk" "tr" "sort" "tail" "rm" "ls" "mkdir" "head" "rsync" "echo")
 
     # get binaries
     for binary in ${mbn_commands[@]}
@@ -104,7 +95,7 @@ function read_config {
     fi
 
     # GET CONF VARS
-    conf_vars="bd_count backup_in_c_month backup_in_month month_in_c_year month_in_year rm_old_backups"
+    conf_vars="fallback_directory bd_count backup_in_c_month backup_in_month month_in_c_year month_in_year rm_old_backups"
     for c_var in $conf_vars
     do
         export $c_var="$($cat /etc/make_backup/Make_Backup.conf | $awk -F "$c_var=\[" {'print $2'} | $awk -F '\];' {'print $1'} | $tr -d '[:space:]')"
@@ -117,8 +108,7 @@ function read_config {
     ## GET BACKUP DIR
     export BACKUP_dir="$($cat /etc/make_backup/Make_Backup.conf | $awk -F 'parent_directory=\[' '{print $2}' | $awk -F '\];' {'print $1'} | $tr -d '[:space:]')"
     if [ -z "$BACKUP_dir" ] || [ ! -e "$BACKUP_dir" ]; then
-        # SET BACKUP_dir to backup BACKUP_dir to avoid crashing
-        local fallback_directory="$($cat /etc/make_backup/Make_Backup.conf | $awk -F "fallback_directory=\[" {'print $2'} | $awk -F '\];' {'print $1'} | $tr -d '[:space:]')"
+        # SET BACKUP_dir to fallback_directory to avoid crashing
         export BACKUP_dir=$fallback_directory
 
         # set old backup removal to no
@@ -294,6 +284,13 @@ while true; do
 
             $mkdir -p $BACKUP_dir/$year_dir/$month_dir
 
+            # CHECK FOR BACKUPS IN fallback_directory
+            if [ "$BACKUP_dir" != "$fallback_directory" ] && [ $(ls $fallback_directory &> /dev/null;echo $?) -eq 0 ]; then
+                AddLog "MOVING BACKUPS" found old backups in fallback directory, moving them to main backup directory.
+                $rsync -av --remove-source-files --prune-empty-dirs $fallback_directory/* $BACKUP_dir &> /dev/null
+                $find $fallback_directory -depth -type d -empty -delete &> /dev/null
+            fi
+            
             ## CREATE BACKUP DIRECTORY
             BACKUP_dir="$BACKUP_dir/$year_dir/$month_dir/$($tr -dc 'a-zA-Z0-9' < /dev/random | $head -c 6)_$($date '+%d_%H_%M')/"
             $mkdir "$BACKUP_dir"
@@ -312,7 +309,7 @@ while true; do
 
             # LOG
             AddLog "FINISHED BACKUP" backup at $BACKUP_dir
-            
+
             $echo "0" > $count_location
             # LOG
             AddLog "RESTORING COUNT" setting activation count to \"0\".
