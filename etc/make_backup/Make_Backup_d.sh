@@ -70,7 +70,7 @@ function get_binary {
         
         # binary dependency missing exiting
         else
-            # LOG--help
+            # LOG
             AddLog "ERROR" "binary dependency missing \"$binary\" exiting."
             
             # EXIT
