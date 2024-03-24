@@ -54,7 +54,22 @@ function get_binary {
     trap 'HandleError' ERR
 
     # list all binaries
-    mbn_commands=("find" "cat" "date" "sed" "awk" "tr" "sort" "tail" "rm" "ls" "mkdir" "head" "rsync" "echo")
+    mbn_commands=(
+        "find"
+        "cat"
+        "date"
+        "sed"
+        "awk"
+        "tr"
+        "sort"
+        "tail"
+        "rm"
+        "ls"
+        "mkdir"
+        "head"
+        "rsync"
+        "echo"
+    )
 
     # get binaries
     for binary in ${mbn_commands[@]}
