@@ -1,7 +1,14 @@
 #!/bin/bash
-#
-#
 # Make Backup Demon
+# Make backups of selected files by count of block device insertion.
+#
+# Written by Noam Alum
+#
+# Documentation at https://alum.sh/assets/Documents/Make%20backup.html
+# GitHub page at https://github.com/Noam-Alum/make_backup
+#
+# © Noam Alum. All rights reserved
+# Visit alum.sh for more scripts like this :)
 
 ### FUNCTIONS
 ## LOG
