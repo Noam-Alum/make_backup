@@ -109,32 +109,35 @@ function read_config {
         exit 1
     fi
 
-    ## GET COUNT LOCATION
-    export count_location="$($cat /etc/make_backup/Make_Backup.conf | $awk -F "count_location=\[" {'print $2'} | $awk -F '\];' {'print $1'} | $tr -d '[:space:]')"
-    if [ -z "$count_location" ] || [ ! -f "$count_location" ]; then
-        AddLog "ERROR" count file "$count_location" could not be used, exiting.
-        exit 1
-    fi
-
-    # GET CONF VARS
-    conf_vars="fallback_directory bd_count backup_in_c_month backup_in_month month_in_c_year month_in_year rm_old_backups"
-    for c_var in $conf_vars
+    ## GET CONF VARS
+    conf_vars=("count_location" "fallback_directory" "bd_count" "backup_in_c_month" "backup_in_month" "month_in_c_year" "month_in_year" "rm_old_backups" "BACKUP_dir")
+    for c_var in ${conf_vars[@]}
     do
-        export $c_var="$($cat /etc/make_backup/Make_Backup.conf | $awk -F "$c_var=\[" {'print $2'} | $awk -F '\];' {'print $1'} | $tr -d '[:space:]')"
+        export $c_var="$($awk -v cvar="$c_var" -F '"' '$1 ~ cvar {print $2}' /etc/make_backup/Make_Backup.conf)"
         if [ -z "$c_var" ]; then
             AddLog "ERROR" error while allocating \"$c_var\", exiting.
             exit 1
         fi
     done
 
-    ## GET BACKUP DIR
-    export BACKUP_dir="$($cat /etc/make_backup/Make_Backup.conf | $awk -F 'parent_directory=\[' '{print $2}' | $awk -F '\];' {'print $1'} | $tr -d '[:space:]')"
-    if [ -z "$BACKUP_dir" ] || [ ! -e "$BACKUP_dir" ]; then
+    ## CHECK
+    # COUNT FILE
+    if [ ! -f "$count_location" ]; then
+        AddLog "ERROR" count file "$count_location" could not be used, exiting.
+        exit 1
+    fi
+
+    ## BACKUP DIR
+    if [ -z "$BACKUP_dir" ] || [ ! -e "$BACKUP_dir" ] && [ ! -z "$fallback_directory" ] && [ -e "$fallback_directory" ]; then
+        $echo $BACKUP_dir
         # SET BACKUP_dir to fallback_directory to avoid crashing
         export BACKUP_dir=$fallback_directory
 
         # set old backup removal to no
         export rm_old_backups="no"
+    elif [ -z "$fallback_directory" ] || [ ! -e "$fallback_directory" ]; then
+        AddLog "ERROR" No useable backup location, check /etc/make_backup/Make_Backup.conf for more information. exiting.
+        exit 1
     fi
 }
 
@@ -307,10 +310,11 @@ while true; do
             $mkdir -p $BACKUP_dir/$year_dir/$month_dir
 
             # CHECK FOR BACKUPS IN fallback_directory
-            if [ "$BACKUP_dir" != "$fallback_directory" ] && [ $(ls $fallback_directory &> /dev/null;echo $?) -eq 0 ]; then
+            if [ "$BACKUP_dir" != "$fallback_directory" ] && [ -e $fallback_directory ] && [ `ls $fallback_directory | wc -l` -ne 0 ]; then
                 AddLog "MOVING BACKUPS" found old backups in fallback directory, moving them to main backup directory.
                 $rsync -av --remove-source-files --prune-empty-dirs $fallback_directory/* $BACKUP_dir &> /dev/null
                 $find $fallback_directory -depth -type d -empty -delete &> /dev/null
+                $mkdir -p "$fallback_directory"
             fi
             
             ## CREATE BACKUP DIRECTORY
