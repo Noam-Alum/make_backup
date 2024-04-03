@@ -75,13 +75,13 @@ systemctl start make_backup.service
 ## set count
 Firstly you need to select a file to count block device entries
 ```sh
-count_location=[/var/test.txt];
+count_location="/var/test.txt"
 ```
 **This needs to be the full path to a file !** (/path/to/file.txt)
 
 Then you should set count of how many times a block device entries cause a backup:
 ```sh
-bd_count=[5];
+bd_count="5"
 ```
 **This settings cannot be 0 and lower!**
 
@@ -89,7 +89,7 @@ bd_count=[5];
 By default make backup backups to the /tmp directory as a fallback to the main backups directory, to choose the backup directory we need to edit the /etc/make_backup/Make_Backup.conf configuration file.
 
 ```sh
-parent_directory=[/change/this/to/backkups_dir];
+parent_directory="/change/this/to/backkups_dir"
 ```
 Swap /change/this/to/backkups_dir to the actual path to your backups directory *with out the / at the end!*
 
@@ -108,16 +108,16 @@ To control how many backups remain in the choosen backups directory we first nee
 ```sh
 ## remove old backups
 # yes | no
-rm_old_backups=[yes];
+rm_old_backups="yes"
 ```
 and make sure its set as ```yes```.
 
 We can change this settings to control how many backups remain in the choosen backups directory like so:
 ```sh
-backup_in_c_month=[14];
-backup_in_month=[1];
-month_in_c_year=[12];
-month_in_year=[1];
+backup_in_c_month="14"
+backup_in_month="1"
+month_in_c_year="12"
+month_in_year="1"
 ```
 * backup_in_c_month = the amount of backups in the current month directory.
 * backup_in_month = the amount of backups in past months.
@@ -128,4 +128,4 @@ month_in_year=[1];
 
 ## Contact
 
-Noam Alum – [Website](https://alum.sh) – nnoam.alum@gamil.com
+Noam Alum – "Website](https://alum.sh) – nnoam.alum@gamil.com
