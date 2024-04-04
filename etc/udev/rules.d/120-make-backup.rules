@@ -1,1 +1,1 @@
-ACTION=="add", KERNEL=="sd*1", RUN+="/etc/make_backup/Make_Backup_d.sh UDEV"
+ACTION=="add", KERNEL=="sd*1", RUN+="/opt/make_backup/make_backup_d.sh UDEV"
