@@ -30,9 +30,6 @@ function AddLog {
         
     # binary dependency missing exiting
     else
-        # LOG
-        AddLog "ERROR" "binary dependency missing \"logger\" exiting."
-            
         # EXIT
         exit 1
     fi
