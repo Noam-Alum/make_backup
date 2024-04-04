@@ -24,6 +24,7 @@ unzip make_backup.zip
 # rsync files
 rsync -av make_backup-main/etc/ /etc/
 rsync -av make_backup-main/var/ /var/
+rsync -av make_backup-main/opt/ /opt/
 
 # remove directory
 rm -rf make_backup-main make_backup.zip
@@ -43,7 +44,7 @@ systemctl start make_backup.service
 <br>
 
 # Usage example && Development setup
-> This section is reffering to the */etc/make_backup/Make_Backup.conf* file.
+> This section is reffering to the */etc/make_backup/make_backup.conf* file.
 
 <div style="text-align: center;">
   <img src="https://www.elegantthemes.com/blog/wp-content/uploads/2021/11/configuring-woocommerce-settings-1.png" alt="WooCommerce Settings">
@@ -63,7 +64,7 @@ bd_count="5"
 **This settings cannot be 0 and lower!**
 
 ## set backup directory
-By default make backup backups to the /tmp directory as a fallback to the main backups directory, to choose the backup directory we need to edit the /etc/make_backup/Make_Backup.conf configuration file.
+By default make backup backups to the /tmp directory as a fallback to the main backups directory, to choose the backup directory we need to edit the /etc/make_backup/make_backup.conf configuration file.
 
 ```sh
 parent_directory="/change/this/to/backkups_dir"
