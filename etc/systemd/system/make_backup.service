@@ -3,7 +3,7 @@ Description=Make Backup Demon
 After=network.target
 
 [Service]
-ExecStart=/etc/make_backup/Make_Backup_d.sh
+ExecStart=/opt/make_backup/make_backup_d.sh
 Restart=always
 User=changeme
 Group=changeme
