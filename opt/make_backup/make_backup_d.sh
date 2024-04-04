@@ -103,7 +103,7 @@ function read_config {
     trap 'HandleError' ERR
 
     ## GET LIST ALL NEEDED FILES
-    export Files="$($cat /etc/make_backup/Make_Backup.conf | $sed -n '/> start items to backup <$/,/> end items to backup <$/{//!p}')"
+    export Files="$($cat /etc/make_backup/make_backup.conf | $sed -n '/> start items to backup <$/,/> end items to backup <$/{//!p}')"
     if [ -z "$Files" ]; then
         AddLog "ERROR" error while reading items to backup, exiting.
         exit 1
@@ -113,7 +113,7 @@ function read_config {
     conf_vars=("count_location" "fallback_directory" "bd_count" "backup_in_c_month" "backup_in_month" "month_in_c_year" "month_in_year" "rm_old_backups" "BACKUP_dir")
     for c_var in ${conf_vars[@]}
     do
-        export $c_var="$($awk -v cvar="$c_var" -F '"' '$1 ~ cvar {print $2}' /etc/make_backup/Make_Backup.conf)"
+        export $c_var="$($awk -v cvar="$c_var" -F '"' '$1 ~ cvar {print $2}' /etc/make_backup/make_backup.conf)"
         if [ -z "$c_var" ]; then
             AddLog "ERROR" error while allocating \"$c_var\", exiting.
             exit 1
@@ -136,7 +136,7 @@ function read_config {
         # set old backup removal to no
         export rm_old_backups="no"
     elif [ -z "$fallback_directory" ] || [ ! -e "$fallback_directory" ]; then
-        AddLog "ERROR" No useable backup location, check /etc/make_backup/Make_Backup.conf for more information. exiting.
+        AddLog "ERROR" No useable backup location, check /etc/make_backup/make_backup.conf for more information. exiting.
         exit 1
     fi
 }
