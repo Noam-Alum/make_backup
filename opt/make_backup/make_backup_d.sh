@@ -125,16 +125,17 @@ function read_config {
     fi
 
     ## BACKUP DIR
-    if [ -z "$BACKUP_dir" ] || [ ! -e "$BACKUP_dir" ] && [ ! -z "$fallback_directory" ] && [ -e "$fallback_directory" ]; then
-        $echo $BACKUP_dir
-        # SET BACKUP_dir to fallback_directory to avoid crashing
-        export BACKUP_dir=$fallback_directory
+    if [ -z "$BACKUP_dir" ] || [ ! -e "$BACKUP_dir" ]; then
+        if [ ! -z "$fallback_directory" ] && [ -e "$fallback_directory" ]; then
+            # SET BACKUP_dir to fallback_directory to avoid crashing
+            export BACKUP_dir=$fallback_directory
 
-        # set old backup removal to no
-        export rm_old_backups="no"
-    elif [ -z "$fallback_directory" ] || [ ! -e "$fallback_directory" ]; then
-        AddLog "ERROR" No useable backup location, check /etc/make_backup/make_backup.conf for more information. exiting.
-        exit 1
+            # set old backup removal to no
+            export rm_old_backups="no"
+        else
+            AddLog "ERROR" No useable backup location, check /etc/make_backup/make_backup.conf for more information. exiting.
+            exit 1
+        fi
     fi
 }
 
