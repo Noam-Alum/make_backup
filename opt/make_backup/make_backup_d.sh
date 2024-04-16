@@ -312,8 +312,7 @@ while true; do
             if [ "$BACKUP_dir" != "$fallback_directory" ] && [ -e $fallback_directory ] && [ `ls $fallback_directory | wc -l` -ne 0 ]; then
                 AddLog "MOVING BACKUPS" found old backups in fallback directory, moving them to main backup directory.
                 $rsync -av --remove-source-files --prune-empty-dirs $fallback_directory/* $BACKUP_dir &> /dev/null
-                $rmdir `$find "$fallback_directory" -depth -type d -empty` &> /dev/null
-                $mkdir -p "$fallback_directory"
+                $rm -rf $fallback_directory/*
             fi
             
             ## CREATE BACKUP DIRECTORY
