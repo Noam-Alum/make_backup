@@ -1,109 +1,154 @@
-# Make Backup
+# introduction
 
-### Make backups of selected files by count of block device insertion
+Make backups of selected files and directories by count of block device insertion.
 
-<hr>
+### some background
 
-<p align="center">
-  <img src="https://www.rackone.it/wp-content/uploads/2023/01/migliori-software-backup.jpg" alt="Migliori Software Backup">
-</p>
+<p>Recently while being at work I unfortunately had to format my computer due to some internal file changes I've made 🫠.<br>
+The fact that I didn't have any backups with all my important files and directories was so absurd to me and made me think about it all day long, not to speak of how my boss  felt about me wasting time restoring my computer 😅, me being me I have to make my own thing... so I came up with this daemon.</p>
 
-<hr>
+### Main feathers:
+
+- If set correctly, it should backup your files and directories to a given directory in your block device.
+- Removes old backups. (this can be set in the configuration file)
+- Follows the general Linux conventions for proper daemon development (incorporating udev, rsyslog, and systemd with correct directory structures).
+- Start backuping based on block device insertion. (eg, every five times I connect my SSD it would make a backup and save it there)
+
+<br>
+
+>**Disclaimer:**
+>
+>My SSD I used for this script is using NFT as its file system, as a result of that I could not use rsync with hardlinks but I do recommend doing so as it would take much less disk space and processing power.
+
+---
 
 # Installation
 
-## OS X & Linux:
+> This backuping solution is for Linux users only.
+
+## Install zipped project
 
 ```sh
-# Install zipped project
 wget -O make_backup.zip https://codeload.github.com/Noam-Alum/make_backup/zip/refs/heads/main
+```
 
-# unzip
+## unzip
+```sh
 unzip make_backup.zip
+```
 
-# rsync files
+## rsync files
+```sh
 rsync -av make_backup-main/etc/ /etc/
 rsync -av make_backup-main/var/ /var/
 rsync -av make_backup-main/opt/ /opt/
+```
 
-# remove directory
+## remove traces
+```sh
 rm -rf make_backup-main make_backup.zip
+```
 
-# handle services
+## handle services
+```sh
 sudo systemctl restart udev rsyslog
 sudo systemctl daemon-reload
 systemctl enable make_backup.service
 systemctl start make_backup.service
 ```
->Make sure to change /etc/systemd/system/make_backup.service user and group to youe likings
->```sh
->User=changeme
->Group=changeme
-<br>
-<hr>
+
 <br>
 
-# Usage example && Development setup
-> This section is reffering to the */etc/make_backup/make_backup.conf* file.
+> **DANGER:**
+> Make sure to change `/etc/systemd/system/make_backup.service` user and group to your likings:
+> 
+> ```sh
+> User=changeme
+> Group=changeme
+> ```
 
-<div style="text-align: center;">
-  <img src="https://www.elegantthemes.com/blog/wp-content/uploads/2021/11/configuring-woocommerce-settings-1.png" alt="WooCommerce Settings">
-</div>
+---
 
-## set count
-Firstly you need to select a file to count block device entries
-```sh
+# Usage
+
+> **This section is reffering to the `/etc/make_backup/make_backup.conf` file.**
+
+## count_location
+
+Select a file to count block device entries:
+```
 count_location="/var/test.txt"
 ```
-**This needs to be the full path to a file !** (/path/to/file.txt)
+**This needs to be the full path to a file (e.g. /path/to/file.txt)**
 
-Then you should set count of how many times a block device entries cause a backup:
-```sh
+## bd_count
+
+Set the maximum count of block device entries that triggers a backup:
+```
 bd_count="5"
 ```
-**This settings cannot be 0 and lower!**
+**This directive cannot be 0 and lower!**
 
-## set backup directory
-By default make backup backups to the /tmp directory as a fallback to the main backups directory, to choose the backup directory we need to edit the /etc/make_backup/make_backup.conf configuration file.
+## parent_directory
 
-```sh
-parent_directory="/change/this/to/backkups_dir"
+Set the main backuping directory:
+
 ```
-Swap /change/this/to/backkups_dir to the actual path to your backups directory *with out the / at the end!*
+parent_directory="/change/this/to/backups_dir"
+```
+**This should be without the / at the end!**
 
-## choose items to backup
-We can add the files and direcotories we want to backup in between this lines:
-```sh
+## Choose items to backup
+Add the files and directories you want to backup in between this lines:
+```
 > start items to backup <
 /backup/this/file.txt
 /backup/this/direcotory/
 > end items to backup <
 ```
-make sure that direcotories **ends with /** and files **dont!**
+make sure that directories **ends with /** and files **dont!**
 
 ## control amount of backups
-To control how many backups remain in the choosen backups directory we first need to check if its enables.
-```sh
+To control how many backups remain in the chosen backups directory first check if its enabled.
+```
 ## remove old backups
 # yes | no
 rm_old_backups="yes"
 ```
-and make sure its set as ```yes```.
+and make sure its set to `yes`.
 
-We can change this settings to control how many backups remain in the choosen backups directory like so:
-```sh
+## Backups retained
+
+**We can change the following directives to control how many backups remain in the chosen backups directory.**
+
+* **backup_in_c_month**
+
+The amount of backups in the current month directory.
+
+```
 backup_in_c_month="14"
+```
+
+* **backup_in_month**
+
+The amount of backups in past months.
+
+```
 backup_in_month="1"
+```
+
+* **month_in_c_year**
+
+The amount of months to leave in past year.
+
+```
 month_in_c_year="12"
+```
+
+* **month_in_year**
+
+The amount of months to leave in past year.
+
+```
 month_in_year="1"
 ```
-* backup_in_c_month = the amount of backups in the current month directory.
-* backup_in_month = the amount of backups in past months.
-* month_in_c_year = the amount of months to leave in past year.
-* month_in_year = the amount of months to leave in past year.
-
-<hr>
-
-## Contact
-
-Noam Alum – "Website](https://alum.sh) – nnoam.alum@gamil.com
