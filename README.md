@@ -18,7 +18,7 @@ The fact that I didn't have any backups with all my important files and director
 
 >**Disclaimer:**
 >
->My SSD I used for this script is using NFT as its file system, as a result of that I could not use rsync with hardlinks but I do recommend doing so as it would take much less disk space and processing power.
+>My SSD I used for this script is using NFTS as its file system, as a result of that I could not use rsync with hardlinks but I do recommend doing so as it would take much less disk space and processing power.
 
 ---
 
