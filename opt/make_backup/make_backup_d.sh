@@ -100,9 +100,9 @@ function read_config {
 
     trap 'HandleError' ERR
 
-    ## GET LIST ALL NEEDED FILES
-    export Files="$($cat /etc/make_backup/make_backup.conf | $sed -n '/> start items to backup <$/,/> end items to backup <$/{//!p}')"
-    if [ -z "$Files" ]; then
+    ## GET LIST ALL NEEDED ITEMS
+    export Items="$($cat /etc/make_backup/make_backup.conf | $sed -n '/> start items to backup <$/,/> end items to backup <$/{//!p}')"
+    if [ -z "$Items" ]; then
         AddLog "ERROR" error while reading items to backup, exiting.
         exit 1
     fi
@@ -324,11 +324,11 @@ while true; do
             AddLog "BACKUP STARTED" backup started at $BACKUP_dir.
             AddLog "BACKUPING FILES" started backuping files to $BACKUP_dir :
 
-            for File in $Files
+            for Item in $Items
             do
                 # RSYNC
-                AddLog "BACKUPING ITEM" "$File"
-                $rsync -av --relative "$File" "$BACKUP_dir" &> /dev/null
+                AddLog "BACKUPING ITEM" "$Item"
+                $rsync -av --relative "$Item" "$BACKUP_dir" &> /dev/null
             done
 
             # LOG
