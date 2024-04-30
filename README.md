@@ -1,3 +1,7 @@
+# Documentation
+
+Click [here](https://docs.alum.sh/Make-backup/introduction.html) to view the make-backup documentation.
+
 # introduction
 
 Make backups of selected files and directories by count of block device insertion.
