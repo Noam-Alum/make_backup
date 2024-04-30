@@ -20,9 +20,9 @@ function AddLog {
     
     # get binaries
     # search for binary
-    if [ ! -z "$(which logger)" ]; then
+    if [ ! -z "$(command -v logger)" ]; then
         # set command to full path to binary
-        export logger="$(which logger)"
+        export logger="$(command -v logger)"
 
     # try running the command if so use it as is
     elif [ ! -z "$(logger --help 2>/dev/null)" ]; then
@@ -73,9 +73,9 @@ function get_binary {
     for binary in ${mbn_commands[@]}
     do
         # search for binary
-        if [ ! -z "$(which $binary)" ]; then
+        if [ ! -z "$(command -v $binary)" ]; then
             # set command to full path to binary
-            export $binary="$(which $binary)"
+            export $binary="$(command -v $binary)"
 
         # try running the command if so use it as is
         elif [ ! -z "$($binary --help 2>/dev/null)" ];then
