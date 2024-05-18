@@ -1,6 +1,6 @@
 [Unit]
 Description=Make Backup Demon
-After=network.target
+After=systemd-udevd.service systemd-timesyncd.service
 
 [Service]
 ExecStart=/opt/make_backup/make_backup_d.sh
